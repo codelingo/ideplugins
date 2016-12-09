@@ -1,0 +1,49 @@
+%YAML 1.2
+---
+contexts:
+  branchContext:
+    - meta_scope: "branch.lingo"
+    - match: ":"
+      pop: true
+  valueContext:
+    - meta_scope: "value.lingo"
+    - match: "$"
+      pop: true
+  CLQLContext:
+    - meta_scope: CLQL.lingo
+    - match: " *[a-zA-Z0-9-._\"]+$"
+      push: valueContext
+    - match: "[a-zA-Z0-9-._]+"
+      scope: keyword.branch.lingo
+      push: branchContext
+  main:
+    - match: lexicons
+      scope: keyword.lexicons
+    - match: tenets
+      push: tenetsContext
+      scope: keyword.tenets
+    - match: "[a-zA-Z0-9\"]+"
+      scope: string.unquoted.single.lingo
+  tenetsContext:
+    - meta_scope: tenets.lingo
+    - match: "-"
+      push: tenetContext
+  tenetContext:
+    - meta_scope: tenet.lingo
+    - match: doc
+      scope: keyword.name.doc
+    - match: comment
+      scope: keyword.name.comment
+    - match: name
+      scope: keyword.name.name
+    - match: description
+      scope: keyword.name.description
+    - match: match
+      push: CLQLContext
+      scope: keyword.name.match
+    - match: "[a-zA-Z0-9\"]+"
+      scope: string.unquoted.single.lingo
+file_extensions:
+  - .lingo
+name: lingo
+scope: source.lingo
