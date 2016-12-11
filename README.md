@@ -19,4 +19,4 @@ Bring up the command palette (default ctrl+shift+p or cmd+shift+p) and start typ
 Reset Completions
 -------
 
-You may wish to get new autocomplete data from the CodeLingo platform, in which case you need to delete the Lingo/lexicons/<owner>/<name> file from your plugin.
+You may wish to get new autocomplete data from the CodeLingo platform, in which case you need to delete the Lingo/lexicons/\<owner\>/\<name\> file from your plugin.
