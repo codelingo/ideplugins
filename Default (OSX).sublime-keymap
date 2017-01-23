@@ -1,3 +1,5 @@
 [
            { "keys": ["ctrl+shift+q"], "command": "lingo_make_queries"},
+           { "keys": ["ctrl+alt+shift+l"], "command": "lingo_delete_lexicons"},
+
 ]
