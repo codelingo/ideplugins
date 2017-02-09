@@ -1,13 +1,15 @@
 import sublime, sublime_plugin
-import os, json, re
+import os, json, re, shutil, threading
 import subprocess
 from .Edit import Edit as Edit
 
-homepath = os.environ['HOME']
-packagePath =  homepath + "/.config/sublime-text-3/Packages/Lingo"
+homePath = os.environ['HOME']
+packagePath =  homePath + "/.config/sublime-text-3/Packages/Lingo"
 
 class LingoMakeQueriesCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
+		print("changed hello!")
+		set_env_vars()
 		window = self.view.window()
 		panel = window.create_output_panel("clql")
 		window.run_command("show_panel",{"panel":"output.clql"})
@@ -18,10 +20,36 @@ class LingoMakeQueriesCommand(sublime_plugin.TextCommand):
 			else:
 				a,b = boundary.b, boundary.a
 
-			output = subprocess.check_output(["lingo","query-from-offset", self.view.file_name(), str(a),str(b)])
+			output = subprocess.check_output(["lingo","query-from-offset", self.view.file_name(), str(a), str(b)])
 			results = bytes_to_json(output)
+			print("have results in json")
+
 			for result in results:
 				panel.insert(edit, panel.size(), array_to_clql(result))
+			
+			check_completions(results)
+
+
+def check_completions(results):
+	# Use actual lexicon later
+	rels = get_json_facts("codelingo/php")
+
+	print("We are missing these relationships in the autocomplete")
+
+	missingFacts = []
+
+	for result in results:
+		for i, j in zip(result, result[1:]):
+			si = i.split(".")[1]
+			sj = j.split(".")[1]
+
+			if not(si in rels and sj in rels[si]):
+				rel = "("+si+", "+sj+")"
+				if not(rel in missingFacts):
+					missingFacts.append(rel)
+
+	for f in missingFacts:
+		print(f)
 
 def array_to_clql(arr):
 	retstr = ""
@@ -29,20 +57,34 @@ def array_to_clql(arr):
 	for fact in arr:
 		retstr += tabs + fact + ":\n"
 		tabs += "  "
-	return retstr[:len(retstr)-1]
+	print("This is retstr")
+	print(retstr)
+	print("That was retstr")
+	return retstr
+
+def set_env_vars():
+	setting = get_setting('codelingo_env')
+	if setting:
+		os.environ['CODELINGO_ENV'] = setting
+
+	path = get_setting('path')
+	if path and path not in os.environ['PATH']:
+		os.environ['PATH'] += ':'
+		os.environ['PATH'] += path
+
+	print("$PATH is: " + os.environ['PATH'])
+
+class LingoResetLexiconsCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+		print("shutting")
+		print(shutil.rmtree(packagePath + "/lexicons/codelingo"))
+		print("shut")
 
 class Lingo(sublime_plugin.EventListener):
 	def on_query_completions(self, view, prefix, location):
 		vs = view.settings()
-		setting = get_setting('codelingo_env')
-		if setting:
-			os.environ['CODELINGO_ENV'] = setting
-
-		path = get_setting('path')
-		if path and path not in os.environ['PATH']:
-			os.environ['PATH'] += ':'
-			os.environ['PATH'] += path
-
+		print("stuff happening")
+		set_env_vars()
 		lexicons = get_lexicons()
 		completions = []
 		# TODO (BlakeMScurr) invalidate the cache once a day, forcing a refresh on next call to plugin
@@ -223,16 +265,31 @@ def append_completions(data, line):
 	return data
 
 def get_json_facts(lexicon):
+	print("getting json facts")
 	get_dataFromPlatform = False
 	fname = packagePath + '/lexicons/' + lexicon + ".json"
 	ensure_dir(packagePath + "/lexicons/" + os.path.split(lexicon)[0])
 	if not os.path.isfile(fname):
-		subprocess.check_output(["lingo","list-facts", lexicon, "-f", "json", "-o", fname])
+		print(fname)
+		t = threading.Thread(target=call_list_facts, args=(lexicon,fname,))
+		t.start()
+		# Makes multithreading redundant, fix by ensuring that callout completes and isn't
+		# terminated when 'run' returns.
+		t.join()
+		# subprocess.check_output(["touch",fname])
+		return ""
+
 	with open(fname, 'r') as infile:
+		# try:
 		data = json.load(infile)
 		infile.close()
-
+			# pass
+		# except Exception as e:
+		# 	data = ""
 	return data
+
+def call_list_facts(lexicon, fname):
+	subprocess.check_output(["lingo","list-facts", lexicon, "-f", "json", "-o", fname])
 
 def countTabs(line):
 	x = 0 
