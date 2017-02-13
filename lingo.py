@@ -181,10 +181,7 @@ class Lingo(sublime_plugin.EventListener):
 					addStr = "  - "
 			# if we are in higher scope
 			elif "source.lingo" in scopes:
-				if re.search('  - ', previous_line) is not None:
-					addStr += "- "
-				else:
-					addStr += "  - "
+				addStr += "- "
 			if previous_line == "":
 				addStr= ""
 			if previous_line == "  - ":
