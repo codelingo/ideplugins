@@ -1,9 +1,9 @@
-#Visual Studio Lingo Query Generation
+#Visual Studio CodeLingo Query Generation
 =========
 
 # Plugin only works with the Lingo binary, sign up for early access at [codelingo.io](http://codelingo.io)
 
-Codelingo Query Generation is an extension for [Visual Studio 2013 and later](https://www.visualstudio.com/) that enables dynamic autocomplete for [CodeLingo](http://codelingo.io) .lingo files.
+The CodeLingo extension adds support for writing and running CLQL in Visual Studio 2013 and later [Visual Studio 2013 and later](https://www.visualstudio.com/)
 
 Install
 -------
@@ -15,4 +15,11 @@ Install the extension by double click the Codelingo Query Generation.vsix and se
 Query Generation
 -------
 
-Select an interested area in a file opened in Visual Studio and click Tools->Codelingo Query Generation...  
+Select an interested area in a file opened in Visual Studio and click Tools->CodeLingo Query Generation...  
+
+Roadmap
+-------
+
+- [x] CLQL generation
+- [ ] .lingo autocomplete
+- [ ] CLQL search panel
