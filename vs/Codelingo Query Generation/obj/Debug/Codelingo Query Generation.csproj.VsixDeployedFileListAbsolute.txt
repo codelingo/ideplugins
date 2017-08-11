@@ -1,5 +1,0 @@
-C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\codelingo\Codelingo_Query_Generation\1.0\\Codelingo Query Generation.dll
-C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\codelingo\Codelingo_Query_Generation\1.0\\Codelingo Query Generation.pdb
-C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\codelingo\Codelingo_Query_Generation\1.0\\Newtonsoft.Json.dll
-C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\codelingo\Codelingo_Query_Generation\1.0\\Codelingo Query Generation.pkgdef
-C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\codelingo\Codelingo_Query_Generation\1.0\\extension.vsixmanifest
