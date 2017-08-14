@@ -1,0 +1,18 @@
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
+  <Metadata>
+    <Identity Id="CodeLingo.junyu zhu.abf0c33c-d014-4eb0-8e2f-167652665617" Version="1.0" Language="en-US" Publisher="CodeLingo" />
+    <DisplayName>CodeLingo</DisplayName>
+    <Description>Empty VSIX Project.</Description>
+    <MoreInfo>https://codelingo.io</MoreInfo>
+  </Metadata>
+  <Installation InstalledByMsi="true">
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[12.0,15.0]" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" Version="[4.5,)" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" Version="[14.0]" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" Path="CodeLingo.pkgdef" />
+  </Assets>
+</PackageManifest>

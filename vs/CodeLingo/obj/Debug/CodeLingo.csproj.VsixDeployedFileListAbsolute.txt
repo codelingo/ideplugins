@@ -1,0 +1,5 @@
+C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\CodeLingo\CodeLingo\1.0\\CodeLingo.dll
+C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\CodeLingo\CodeLingo\1.0\\CodeLingo.pdb
+C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\CodeLingo\CodeLingo\1.0\\Newtonsoft.Json.dll
+C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\CodeLingo\CodeLingo\1.0\\CodeLingo.pkgdef
+C:\Users\Junyu\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\CodeLingo\CodeLingo\1.0\\extension.vsixmanifest
