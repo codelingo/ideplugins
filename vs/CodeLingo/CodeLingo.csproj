@@ -65,6 +65,7 @@
   <ItemGroup>
     <VSCTCompile Include="CodeLingoPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="index.html" />
     <Content Include="Resources\CodeLingo.png" />

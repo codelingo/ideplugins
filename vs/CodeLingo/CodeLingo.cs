@@ -11,6 +11,7 @@ using EnvDTE;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace CodeLingo
 {
@@ -120,7 +121,8 @@ namespace CodeLingo
         /// <param name="e">Event args.</param>
         public void MenuItemCallback(object sender, EventArgs e)
         {
-
+            string message = "";
+            string title = "Error";
             DTE dte = (DTE)ServiceProvider.GetService(typeof(DTE));
 
             if (dte.ActiveDocument != null)
@@ -156,7 +158,21 @@ namespace CodeLingo
                 {
                     output += proc.StandardOutput.ReadLine();
                 }
+                if (output.Contains("context deadline exceeded")){
+                    message = "Unable to connect to the CodeLingo Platform"; 
 
+                    // Show a message box to prove we were here
+                    VsShellUtilities.ShowMessageBox(
+                        this.ServiceProvider,
+                        message,
+                        title,
+                        OLEMSGICON.OLEMSGICON_INFO,
+                        OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                        OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                    return;
+                }
+                int start = output.IndexOf('[');
+                output = output.Substring(start);
                 JToken json = JToken.Parse(output);
                 output = "";
                 foreach (var arr in json)
@@ -188,6 +204,17 @@ namespace CodeLingo
                     }
                 };
                 proc.Start();
+            }else
+            {
+                message = "Cannot find an active document.";
+                // Show a message box to prove we were here
+                VsShellUtilities.ShowMessageBox(
+                    this.ServiceProvider,
+                    message,
+                    title,
+                    OLEMSGICON.OLEMSGICON_INFO,
+                    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
             }
         }
     }

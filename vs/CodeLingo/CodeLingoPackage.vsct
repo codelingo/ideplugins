@@ -30,7 +30,14 @@
     called "command set" and is used to group different command inside a logically related
     group; your package should define its own command set in order to avoid collisions
     with command ids defined by other packages. -->
-
+    <Menus>
+      <Menu guid="guidCodeLingoPackageCmdSet" id="CodeLingoSubMenu" priority="0x0100" type="Menu">
+        <Parent guid="guidCodeLingoPackageCmdSet" id="MyMenuGroup"/>
+        <Strings>
+          <ButtonText>CodeLingo</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
     <!-- In this section you can define new menu groups. A menu group is a container for
          other menus or buttons (commands); from a visual point of view you can see the
          group as the part of a menu contained between two lines. The parent of a group
@@ -38,6 +45,9 @@
     <Groups>
       <Group guid="guidCodeLingoPackageCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+      <Group guid="guidCodeLingoPackageCmdSet" id="SubMenuGroup" priority="0x0000">
+        <Parent guid="guidCodeLingoPackageCmdSet" id="CodeLingoSubMenu"/>
       </Group>
     </Groups>
 
@@ -52,11 +62,11 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidCodeLingoPackageCmdSet" id="CodeLingoId" priority="0x0100" type="Button">
-        <Parent guid="guidCodeLingoPackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPic1" />
+      <Button guid="guidCodeLingoPackageCmdSet" id="CodeLingoId" priority="0x0000" type="Button">
+        <Parent guid="guidCodeLingoPackageCmdSet" id="SubMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic2" />
         <Strings>
-          <ButtonText>CodeLingo</ButtonText>
+          <ButtonText>Generate Query</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -80,6 +90,9 @@
     <GuidSymbol name="guidCodeLingoPackageCmdSet" value="{78a6ee1a-e4e8-4215-b5b0-b551a47c142b}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="CodeLingoId" value="0x0100" />
+      <IDSymbol name="CodeLingoSubMenu" value="0x1100"/>
+      <IDSymbol name="SubMenuGroup" value="0x1150"/>
+      <IDSymbol name="cmdidTestSubCommand" value="0x0105"/>
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{5754f32e-e224-4514-898f-299702fdfa3d}" >
