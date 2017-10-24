@@ -22,7 +22,6 @@ class LingoMakeQueriesCommand(sublime_plugin.TextCommand):
 
 			output = subprocess.check_output(["lingo","query-from-offset", self.view.file_name(), str(a), str(b)])
 			results = bytes_to_json(output)
-			print("have results in json")
 
 			for result in results:
 				panel.insert(edit, panel.size(), array_to_clql(result))
@@ -302,4 +301,7 @@ def ensure_dir(path):
 	subprocess.call(["mkdir", path])
 
 def bytes_to_json(byte):
-	return json.loads(byte.decode("utf-8"))
+	stringVals = byte.decode("utf-8")
+	if stringVals.startswith("Warning: Your client is newer than the platform. This may result in unexpected behaviour.\n"):
+		_, stringVals = stringVals.split("iour.\n",1)
+	return json.loads(stringVals)
