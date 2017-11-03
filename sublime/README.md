@@ -11,10 +11,28 @@ Install
 -------
 
 Install the [CodeLingo client](https://github.com/codelingo/lingo) and make sure the binary is on your path, as per the instructions.
-
-Install Sublime Package Control (if you haven't done so already) from http://wbond.net/sublime_packages/package_control. Be sure to restart ST to complete the installation.
+<!-- TODO:  add to package control https://trello.com/c/SCTHS3xW/638-add-sublimelingo-to-package-control -->
+<!--  Install Sublime Package Control (if you haven't done so already) from http://wbond.net/sublime_packages/package_control. Be sure to restart ST to complete the installation.
 
 Bring up the command palette (default ctrl+shift+p or cmd+shift+p) and start typing Package Control: Install Package then press return or click on that option to activate it. You will be presented with a new Quick Panel with the list of available packages. Type Lingo and press return or on its entry to install Lingo. If there is no entry for Lingo, you most likely already have it installed.
+ -->
+Clone this repo
+
+`git clone https://github.com/codelingo/ideplugins`
+
+and add the sublime plugin to your packages
+
+`cp -R ideplugins/sublime/ ~/.config/sublime-text-3/Packages/Lingo`
+
+Query Generation
+-------
+
+Select some code in a CodeLingo supported language and hit `ctrl`+`shift`+`q`. A text box should appear at the bottom of the page with generated queries. 
+
+The debug terminal can be opened with `ctrl`+`` ` ``. There may be a short lag due to latency.
+
+The hotkey can be changed in `Preferences > Package Settings > Lingo > Settings > User`.
+
 
 Reset Completions
 -------
