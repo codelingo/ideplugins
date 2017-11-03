@@ -24,6 +24,16 @@ and add the sublime plugin to your packages
 
 `cp -R ideplugins/sublime/ ~/.config/sublime-text-3/Packages/Lingo`
 
+Query Generation
+-------
+
+Select some code in a CodeLingo supported language and hit `ctrl`+`shift`+`q`. A text box should appear at the bottom of the page with generated queries. 
+
+The debug terminal can be opened with `ctrl`+`` ` ``. There may be a short lag due to latency.
+
+The hotkey can be changed in `Preferences > Package Settings > Lingo > Settings > User`.
+
+
 Reset Completions
 -------
 
