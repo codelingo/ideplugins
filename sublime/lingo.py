@@ -20,6 +20,8 @@ class LingoMakeQueriesCommand(sublime_plugin.TextCommand):
 			else:
 				a,b = boundary.b, boundary.a
 
+			print("Running:")
+			print("lingo query-from-offset " + self.view.file_name() + " " + str(a) + " " + str(b))
 			output = subprocess.check_output(["lingo","query-from-offset", self.view.file_name(), str(a), str(b)])
 			results = bytes_to_json(output)
 
