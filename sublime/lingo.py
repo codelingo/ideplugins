@@ -55,12 +55,10 @@ def check_completions(results):
 def array_to_clql(arr):
 	retstr = ""
 	tabs = ""
-	for fact in arr:
+	for fact in arr[:-1]:
 		retstr += tabs + fact + ":\n"
 		tabs += "  "
-	print("This is retstr")
-	print(retstr)
-	print("That was retstr")
+	retstr += tabs + "@ clair.comment\n" + tabs + arr[-1] + "\n"
 	return retstr
 
 def set_env_vars():
