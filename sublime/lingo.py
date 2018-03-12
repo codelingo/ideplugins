@@ -26,7 +26,7 @@ class LingoMakeQueriesCommand(sublime_plugin.TextCommand):
 			results = bytes_to_json(output)
 
 			for result in results:
-				panel.insert(edit, panel.size(), array_to_clql(result))
+				panel.insert(edit, panel.size(), json_to_clql(result))
 			
 			check_completions(results)
 
@@ -52,14 +52,22 @@ def check_completions(results):
 	for f in missingFacts:
 		print(f)
 
-def array_to_clql(arr):
-	retstr = ""
-	tabs = ""
-	for fact in arr[:-1]:
-		retstr += tabs + fact + ":\n"
-		tabs += "  "
-	retstr += tabs + "@ clair.comment\n" + tabs + arr[-1] + "\n"
-	return retstr
+def json_to_clql(path):
+	facts = path["Facts"]
+
+	clql = ""
+	indent = ""
+	for i, fact in enumerate(facts):
+		if i == len(facts) - 1:
+			clql += indent + "@ clair.comment\n"
+
+		clql += indent + fact["FactName"] + ":\n"
+
+		indent += "  "
+
+		for name, prop in fact["Properties"].items():
+			clql += indent + name + ": " + prop + "\n"
+	return clql
 
 def set_env_vars():
 	setting = get_setting('codelingo_env')
