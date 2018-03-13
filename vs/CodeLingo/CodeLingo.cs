@@ -161,7 +161,6 @@ namespace CodeLingo
                 if (output.Contains("context deadline exceeded")){
                     message = "Unable to connect to the CodeLingo Platform"; 
 
-                    // Show a message box to prove we were here
                     VsShellUtilities.ShowMessageBox(
                         this.ServiceProvider,
                         message,
@@ -172,6 +171,25 @@ namespace CodeLingo
                     return;
                 }
                 int start = output.IndexOf('[');
+                if (start == -1)
+                {
+                    string[] delimiter = { "Warning: Your client is out of date. This may result in unexpected behaviour." };
+                    string[] str = output.Split((delimiter),System.StringSplitOptions.RemoveEmptyEntries);
+
+                    message = "The result received from CodeLingo platform is empty. This language may not be supported in the platform";
+                    if (str.Length > 0)
+                    {
+                        message = "Invalid result received: " + str[1];
+                    }
+                    VsShellUtilities.ShowMessageBox(
+                        this.ServiceProvider,
+                        message,
+                        title,
+                        OLEMSGICON.OLEMSGICON_INFO,
+                        OLEMSGBUTTON.OLEMSGBUTTON_OK,
+                        OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                    return;
+                } 
                 output = output.Substring(start);
                 JToken json = JToken.Parse(output);
                 output = "";
@@ -207,7 +225,6 @@ namespace CodeLingo
             }else
             {
                 message = "Cannot find an active document.";
-                // Show a message box to prove we were here
                 VsShellUtilities.ShowMessageBox(
                     this.ServiceProvider,
                     message,
