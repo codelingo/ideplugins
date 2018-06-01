@@ -21,13 +21,13 @@ class LingoMakeQueriesCommand(sublime_plugin.TextCommand):
 				a,b = boundary.b, boundary.a
 
 			print("Running:")
-			print("lingo query-from-offset " + self.view.file_name() + " " + str(a) + " " + str(b))
-			output = subprocess.check_output(["lingo","query-from-offset", self.view.file_name(), str(a), str(b)])
+			print("lingo tooling query-from-offset " + self.view.file_name() + " " + str(a) + " " + str(b))
+			output = subprocess.check_output(["lingo","tooling","query-from-offset", self.view.file_name(), str(a), str(b)])
 			results = bytes_to_json(output)
 
 			for result in results:
 				panel.insert(edit, panel.size(), json_to_clql(result))
-			
+
 			check_completions(results)
 
 
@@ -293,7 +293,7 @@ def get_json_facts(lexicon):
 	return data
 
 def call_list_facts(lexicon, fname):
-	subprocess.check_output(["lingo","list-facts", lexicon, "-f", "json", "-o", fname])
+	subprocess.check_output(["lingo","tooling","list-facts", lexicon, "-f", "json", "-o", fname])
 
 def countTabs(line):
 	x = 0 
