@@ -146,7 +146,7 @@ namespace CodeLingo
                     StartInfo = new System.Diagnostics.ProcessStartInfo
                     {
                         FileName = "cmd.exe",
-                        Arguments = "/C lingo query-from-offset " + path + " " + offsetA + " " + offsetB,
+                        Arguments = "/C lingo tooling query-from-offset " + path + " " + offsetA + " " + offsetB,
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         CreateNoWindow = true
