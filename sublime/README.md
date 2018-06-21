@@ -10,7 +10,7 @@ LingoComplete is a plugin for [SublimeText](http://www.sublimetext.com/) that en
 Install
 -------
 
-Install the [CodeLingo client](https://github.com/codelingo/lingo) and make sure the binary is on your path, as per the instructions.
+Install the [lingo client](https://github.com/codelingo/lingo) and make sure the binary is on your path.
 <!-- TODO:  add to package control https://trello.com/c/SCTHS3xW/638-add-sublimelingo-to-package-control -->
 <!--  Install Sublime Package Control (if you haven't done so already) from http://wbond.net/sublime_packages/package_control. Be sure to restart ST to complete the installation.
 
