@@ -6,9 +6,19 @@ from .Edit import Edit as Edit
 homePath = os.environ['HOME']
 packagePath =  homePath + "/.config/sublime-text-3/Packages/Lingo"
 
+class LingoMakeQueriesAllPropsCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+		gen_query(self, edit, "--all-properties")
+
+class LingoMakeQueriesFinalFactPropsCommand(sublime_plugin.TextCommand):
+	def run(self, edit):
+		gen_query(self, edit, "--final-fact-properties")
+
 class LingoMakeQueriesCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
-		print("changed hello!")
+		gen_query(self, edit, "")
+
+def gen_query(self, edit, flag):
 		set_env_vars()
 		window = self.view.window()
 		panel = window.create_output_panel("clql")
@@ -20,9 +30,12 @@ class LingoMakeQueriesCommand(sublime_plugin.TextCommand):
 			else:
 				a,b = boundary.b, boundary.a
 
+			args = ["lingo","tooling","query-from-offset", self.view.file_name(), str(a), str(b)]
+			if flag != "":
+				args.insert(3, flag)
 			print("Running:")
-			print("lingo tooling query-from-offset " + self.view.file_name() + " " + str(a) + " " + str(b))
-			output = subprocess.check_output(["lingo","tooling","query-from-offset", self.view.file_name(), str(a), str(b)])
+			print(args)
+			output = subprocess.check_output(args)
 			results = bytes_to_json(output)
 
 			for result in results:
