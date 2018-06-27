@@ -83,9 +83,6 @@ def json_to_clql(path):
     clql = ""
     indent = ""
     for i, fact in enumerate(facts):
-        if i == len(facts) - 1:
-            clql += indent + "@ clair.comment\n"
-
         clql += indent + fact["FactName"] + ":\n"
 
         indent += "  "
