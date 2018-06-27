@@ -88,6 +88,8 @@ def json_to_clql(path):
         indent += "  "
 
         for name, prop in fact["Properties"].items():
+            if isinstance(prop, str):
+                prop = '"' + prop + '"'
             clql += indent + name + ": " + prop + "\n"
     return clql
 
