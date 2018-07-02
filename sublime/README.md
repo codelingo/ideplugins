@@ -27,7 +27,13 @@ and add the sublime plugin to your packages
 Query Generation
 -------
 
-Select some code in a CodeLingo supported language and hit `ctrl`+`shift`+`q`. A text box should appear at the bottom of the page with generated queries. 
+Select some code in a CodeLingo supported language and press any of the key combinations below. A text box should appear at the bottom of the page with generated queries.
+
+Usage:
+
+- Generate queries with facts only, ie. no properties: `alt+shift+q`.
+- Generate queries with facts and all properties: `alt+shift+a`.
+- Generate queries with facts and properties only on the last facts: `alt+shift+z`.
 
 The debug terminal can be opened with `ctrl`+`` ` ``. There may be a short lag due to latency.
 

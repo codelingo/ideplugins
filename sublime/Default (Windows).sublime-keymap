@@ -1,6 +1,6 @@
 [
-           { "keys": ["ctrl+shift+q"], "command": "lingo_make_queries"},
-           { "keys": ["ctrl+shift+a"], "command": "lingo_make_queries_all_props"},
-           { "keys": ["ctrl+shift+z"], "command": "lingo_make_queries_final_fact_props"},
-           { "keys": ["ctrl+shift+alt+l"], "command": "lingo_reset_lexicons"},
+           { "keys": ["alt+shift+q"], "command": "lingo_make_queries"},
+           { "keys": ["alt+shift+a"], "command": "lingo_make_queries_all_props"},
+           { "keys": ["alt+shift+z"], "command": "lingo_make_queries_final_fact_props"},
+           { "keys": ["alt+shift+l"], "command": "lingo_reset_lexicons"},
 ]

@@ -50,7 +50,7 @@ def gen_query(self, edit, flag):
         results = bytes_to_json(output)
 
         for result in results:
-            panel.insert(edit, panel.size(), json_to_clql(result))
+            panel.insert(edit, panel.size(), json_to_clql(result, 0))
 
         check_completions(results)
 
@@ -89,9 +89,11 @@ def json_to_clql(fact, indent_level):
         clql += lex_import
         args = "({depth: any})"
 
-    clql += "{0}{1}{2}:\n".format(indent*indent_level, fact_name, args)
-
     properties = fact.get("properties")
+    children = fact.get("children")
+    colon = "" if properties is None and children is None else ":"
+    clql += "{0}{1}{2}{3}\n".format(indent*indent_level, fact_name, args, colon)
+
     if properties is not None:
         indent_level += 1
         for name, prop in properties.items():
@@ -100,7 +102,6 @@ def json_to_clql(fact, indent_level):
             clql += "{0}{1}: {2}\n".format(indent*indent_level, name, prop)
         indent_level -= 1
 
-    children = fact.get("children")
     if children is not None:
         indent_level += 1
         for child in children:
