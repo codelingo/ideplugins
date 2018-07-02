@@ -31,9 +31,9 @@ Select some code in a CodeLingo supported language and press any of the key comb
 
 Usage:
 
-- Generate queries with facts only, ie. no properties: `ctrl+shift+alt+q`.
-- Generate queries with facts and all properties: `ctrl+shift+alt+a`.
-- Generate queries with facts, and properties only on the last facts: `ctrl+shift+alt+z`.
+- Generate queries with facts only, ie. no properties: `alt+shift+q`.
+- Generate queries with facts and all properties: `alt+shift+a`.
+- Generate queries with facts and properties only on the last facts: `alt+shift+z`.
 
 The debug terminal can be opened with `ctrl`+`` ` ``. There may be a short lag due to latency.
 
