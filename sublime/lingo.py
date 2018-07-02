@@ -77,21 +77,36 @@ def check_completions(results):
         print(f)
 
 
-def json_to_clql(path):
-    facts = path["Facts"]
-
+def json_to_clql(fact, indent_level):
     clql = ""
-    indent = ""
-    for i, fact in enumerate(facts):
-        if i == len(facts) - 1:
-            clql += indent + "@ clair.comment\n"
+    indent = "  "
+    fact_name = fact["fact_name"]
 
-        clql += indent + fact["FactName"] + ":\n"
+    args = ""
+    if indent_level == 0:
+        lex_name = fact_name.split(".")[0]
+        lex_import = "import codelingo/ast/{0}\n\n".format(lex_name)
+        clql += lex_import
+        args = "({depth: any})"
 
-        indent += "  "
+    clql += "{0}{1}{2}:\n".format(indent*indent_level, fact_name, args)
 
-        for name, prop in fact["Properties"].items():
-            clql += indent + name + ": " + prop + "\n"
+    properties = fact.get("properties")
+    if properties is not None:
+        indent_level += 1
+        for name, prop in properties.items():
+            if isinstance(prop, str):
+                prop = '"' + prop + '"'
+            clql += "{0}{1}: {2}\n".format(indent*indent_level, name, prop)
+        indent_level -= 1
+
+    children = fact.get("children")
+    if children is not None:
+        indent_level += 1
+        for child in children:
+            clql += json_to_clql(child, indent_level)
+        indent_level -= 1
+
     return clql
 
 
