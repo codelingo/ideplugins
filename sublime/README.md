@@ -1,31 +1,35 @@
-#SublimeLingo
-=========
+# Sublime Plugin
 
-Sublime Text 3 Plugin for CodeLingo
+A plugin for [Sublime Text 3](https://www.sublimetext.com/) that adds auto-complete, syntax highlighting, and query generation for CodeLingo's CLQL.
 
-# Plugin only works with the Lingo binary, sign up for early access at [codelingo.io](http://codelingo.io)
 
-LingoComplete is a plugin for [SublimeText](http://www.sublimetext.com/) that enables highlighting and dynamic autocomplete for [CodeLingo](http://codelingo.io) .lingo files.
+## Install / Upgrade
 
-Install
--------
+This plugin depends on the [Lingo client](https://github.com/codelingo/lingo), so make sure you have installed this somewhere in your PATH.
 
-Install the [lingo client](https://github.com/codelingo/lingo) and make sure the binary is on your path.
 <!-- TODO:  add to package control https://trello.com/c/SCTHS3xW/638-add-sublimelingo-to-package-control -->
 <!--  Install Sublime Package Control (if you haven't done so already) from http://wbond.net/sublime_packages/package_control. Be sure to restart ST to complete the installation.
 
 Bring up the command palette (default ctrl+shift+p or cmd+shift+p) and start typing Package Control: Install Package then press return or click on that option to activate it. You will be presented with a new Quick Panel with the list of available packages. Type Lingo and press return or on its entry to install Lingo. If there is no entry for Lingo, you most likely already have it installed.
  -->
-Clone this repo
 
-`git clone https://github.com/codelingo/ideplugins`
+To install or update this plugin:
 
-and add the sublime plugin to your packages
+1. Clone this repo:
+   ```bash
+   git clone https://github.com/codelingo/ideplugins
+   ```
+2. Remove any previous Lingo plugin version:
+    ```bash
+    ~/.config/sublime-text-3/Packages/Lingo
+    ```
+3. Add the Lingo plugin to your Sublime packages:
+    ```bash
+    cp -R ideplugins/sublime/ ~/.config/sublime-text-3/Packages/Lingo
+    ```
 
-`cp -R ideplugins/sublime/ ~/.config/sublime-text-3/Packages/Lingo`
 
-Query Generation
--------
+## Query Generation
 
 Select some code in a CodeLingo supported language and press any of the key combinations below. A text box should appear at the bottom of the page with generated queries.
 
@@ -40,7 +44,7 @@ The debug terminal can be opened with `ctrl`+`` ` ``. There may be a short lag d
 The hotkey can be changed in `Preferences > Package Settings > Lingo > Settings > User`.
 
 
-Reset Completions
--------
+
+## Reset Completions
 
 You may wish to get new autocomplete data from the CodeLingo platform, in which case you need to delete the Lingo/lexicons/\<owner\>/\<name\> file from your plugin.
