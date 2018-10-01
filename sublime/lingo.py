@@ -87,7 +87,7 @@ def json_to_clql(fact, indent_level):
         lex_name = fact_name.split(".")[0]
         lex_import = "import codelingo/ast/{0}\n\n".format(lex_name)
         clql += lex_import
-        args = "(depth == any)"
+        args = "(depth = any)"
 
     properties = fact.get("properties")
     children = fact.get("children")
