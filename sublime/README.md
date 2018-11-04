@@ -5,7 +5,7 @@ A plugin for [Sublime Text 3](https://www.sublimetext.com/) that adds auto-compl
 
 ## Install / Upgrade
 
-This plugin depends on the [Lingo client](https://github.com/codelingo/lingo), so make sure you have installed this somewhere in your PATH.
+This plugin depends on the [Lingo client](https://github.com/codelingo/lingo), so make sure you have installed this somewhere in your PATH. If lingo is in your GOPATH make sure a copy exists in your PATH also.
 
 <!-- TODO:  add to package control https://trello.com/c/SCTHS3xW/638-add-sublimelingo-to-package-control -->
 <!--  Install Sublime Package Control (if you haven't done so already) from http://wbond.net/sublime_packages/package_control. Be sure to restart ST to complete the installation.
