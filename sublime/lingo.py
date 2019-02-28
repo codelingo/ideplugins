@@ -41,7 +41,13 @@ def gen_query(self, edit, flag):
         else:
             a, b = boundary.b, boundary.a
 
-        args = ["lingo", "tooling", "query-from-offset", self.view.file_name(), str(a), str(b)]
+        args = None
+        insecure = get_setting('insecure')
+        if insecure:
+            args = ["lingo", "tooling", "query-from-offset", "--insecure", self.view.file_name(), str(a), str(b)]
+        else:
+            args = ["lingo", "tooling", "query-from-offset", self.view.file_name(), str(a), str(b)]
+
         if flag != "":
             args.insert(3, flag)
         print("Running:")
