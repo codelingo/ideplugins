@@ -65,7 +65,7 @@ export async function errorNoRepoDetected() {
 export async function errorRepoNotFound() {
   await window.showErrorMessage(
     `CodeLingo was unable to find your repo. Please make sure the CodeLingo GitHub app is installed
-    on GitHub.`
+    on the repo.`
   );
 }
 
