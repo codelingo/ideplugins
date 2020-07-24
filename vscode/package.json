@@ -15,12 +15,20 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [
-			{
-				"command": "codelingo.capture",
-				"title": "CodeLingo capture"
+		"commands": [{
+			"command": "codelingo.capture",
+			"title": "CodeLingo capture"
+		}],
+		"configuration": {
+			"title": "CodeLingo",
+			"properties": {
+				"codelingo.launchUrl": {
+					"type": "string",
+					"description": "The URL to launch when the rule creation popup is clicked",
+					"default": "https://dash.staging.codelingo.io/repos/mrcrowl/swarm/rules/170"
+				}
 			}
-		]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
