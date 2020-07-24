@@ -47,11 +47,11 @@ async function storeRule(message: string, source: CaptureSource) {
     },
     async () => {
       const api = config.api;
-      // VSCode will generate an okay-ish error message if this request fails
+
       const response = await axios.post(
         `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
         {
-          name: `Rule captured from VSCode in ${source.filepath}`,
+          name: message,
           description: descriptionFromSource(source),
           query: defaultQuery,
           functions: null,
@@ -99,5 +99,7 @@ async function inferContextFromActiveEditor(): Promise<{
 }
 
 function descriptionFromSource(source: CaptureSource) {
-  return `Rule captured from lines ${source.lineRange?.[0]} to ${source.lineRange?.[1]} of ${source.filepath} in commit ${source.commit?.hash}`;
+  return `Rule captured from lines ${source.lineRange?.[0]} to ${source.lineRange?.[1]} of ${
+    source.filepath
+  } in commit ${source.commit?.hash.substring(0, 7)}`;
 }
