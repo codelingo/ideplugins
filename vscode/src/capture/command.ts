@@ -18,7 +18,6 @@ go.file(depth=any):
 
 export default async function capture(): Promise<any> {
   // TODO: authenticate user with auth-0
-
   const { repos, filepath, lineRange, commit } = await inferContextFromActiveEditor();
   if (!repos) {
     return await ui.errorNoRepoDetected();
