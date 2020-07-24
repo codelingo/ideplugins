@@ -70,9 +70,7 @@ export async function errorRepoNotFound() {
 }
 
 export async function errorAPIServer() {
-  await window.showErrorMessage(
-    'CodeLingo was unable to find Git. Please make sure Git is installed. Also ensure that Git is in the PATH.'
-  );
+  await window.showErrorMessage('An error occurred talking to the CodeLingo API');
 }
 
 export async function errorGitDisabled() {
@@ -86,4 +84,3 @@ export async function errorGitNotFound() {
     'CodeLingo was unable to find Git. Please make sure Git is installed. Also ensure that Git is in the PATH.'
   );
 }
-
