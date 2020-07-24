@@ -1,6 +1,6 @@
 const config = {
   api: {
-    host: 'http://localhost:8085',
+    host: 'https://api.codelingo.io',
     paths: {
       capture: '/capture',
     },
