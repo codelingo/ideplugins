@@ -1,4 +1,3 @@
-import config from './config';
 import { Rule, CaptureSource, Repo, LineRange, RepoQuickPickItem } from './capture/model';
 import { window, env, Uri, workspace } from 'vscode';
 
@@ -8,7 +7,7 @@ export async function showRuleWasCreated(rule: Rule, source: CaptureSource) {
     'View Rule'
   );
   if (response === 'View Rule') {
-    const url = `${config.dash.host}/repos/${source.owner}/${source.repo}/rules/${rule.id}`;
+    const url = workspace.getConfiguration('codelingo').get<string>('launchUrl')!;
     env.openExternal(Uri.parse(url));
   }
 }
@@ -48,7 +47,7 @@ export async function inputCaptureMessage(lineRange: LineRange | undefined) {
 
   const result = await window.showInputBox({
     placeHolder: 'Enter a message to capture',
-    prompt: `What Rule do you want to capture at ${describeLineRange(lineRange)}?`,
+    prompt: `What rule do you want to capture at ${describeLineRange(lineRange)}?`,
   });
 
   return result?.trim();
