@@ -62,6 +62,19 @@ export async function errorNoRepoDetected() {
   await window.showErrorMessage('Could not detect which GitHub repo this file belongs to');
 }
 
+export async function errorRepoNotFound() {
+  await window.showErrorMessage(
+    `CodeLingo was unable to find your repo. Please make sure the CodeLingo GitHub app is installed
+    on GitHub.`
+  );
+}
+
+export async function errorAPIServer() {
+  await window.showErrorMessage(
+    'CodeLingo was unable to find Git. Please make sure Git is installed. Also ensure that Git is in the PATH.'
+  );
+}
+
 export async function errorGitDisabled() {
   await window.showInformationMessage(
     'CodeLingo requires Git to be enabled. Please re-enable Git \u2014 set `git.enabled` to true and reload'
@@ -73,3 +86,4 @@ export async function errorGitNotFound() {
     'CodeLingo was unable to find Git. Please make sure Git is installed. Also ensure that Git is in the PATH.'
   );
 }
+
