@@ -1,3 +1,4 @@
+import config from './config';
 import { Rule, CaptureSource, Repo, LineRange, RepoQuickPickItem } from './capture/model';
 import { window, env, Uri, workspace } from 'vscode';
 
@@ -7,7 +8,7 @@ export async function showRuleWasCreated(rule: Rule, source: CaptureSource) {
     'View Rule'
   );
   if (response === 'View Rule') {
-    const url = workspace.getConfiguration('codelingo').get<string>('launchUrl')!;
+    const url = `${config.dash.host}/repos/${source.owner}/${source.repo}/rules/${rule.id}`;
     env.openExternal(Uri.parse(url));
   }
 }
@@ -47,7 +48,7 @@ export async function inputCaptureMessage(lineRange: LineRange | undefined) {
 
   const result = await window.showInputBox({
     placeHolder: 'Enter a message to capture',
-    prompt: `What rule do you want to capture at ${describeLineRange(lineRange)}?`,
+    prompt: `What Rule do you want to capture at ${describeLineRange(lineRange)}?`,
   });
 
   return result?.trim();
@@ -59,6 +60,17 @@ export async function errorNoRepoChosen() {
 
 export async function errorNoRepoDetected() {
   await window.showErrorMessage('Could not detect which GitHub repo this file belongs to');
+}
+
+export async function errorRepoNotFound() {
+  await window.showErrorMessage(
+    `CodeLingo was unable to find your repo. Please make sure the CodeLingo GitHub app is installed
+    on the repo.`
+  );
+}
+
+export async function errorAPIServer() {
+  await window.showErrorMessage('An error occurred talking to the CodeLingo API');
 }
 
 export async function errorGitDisabled() {
