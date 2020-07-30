@@ -15,7 +15,7 @@ export async function showRuleWasCreated(rule: Rule, source: CaptureSource) {
 
 export async function loginConfirmation() {
   const response = await window.showInformationMessage(
-    'Please close this message to log in with GitHub and try rerunning the command again',
+    'Please log in with GitHub and try rerunning the command again',
     'Login'
   );
   return response === 'Login';
@@ -79,6 +79,10 @@ export async function errorRepoNotFound() {
 
 export async function errorAPIServer() {
   await window.showErrorMessage('An error occurred talking to the CodeLingo API');
+}
+
+export async function errorClient() {
+  await window.showErrorMessage('CodeLingo capture hit an error');
 }
 
 export async function errorGitDisabled() {

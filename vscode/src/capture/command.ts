@@ -42,8 +42,12 @@ export default async function capture(): Promise<any> {
   }
 
   const source: CaptureSource = { owner: repo.owner, repo: repo.name, filepath, lineRange, commit };
-  const rule = await storeRule(message, source, auth.accessToken);
-  await ui.showRuleWasCreated(rule, source);
+  try {
+    const rule = await storeRule(message, source, auth.accessToken);
+    return await ui.showRuleWasCreated(rule, source);
+  } catch (e) {
+    return await ui.errorAPIServer();
+  }
 }
 
 async function storeRule(message: string, source: CaptureSource, token: string | undefined) {
@@ -55,9 +59,6 @@ async function storeRule(message: string, source: CaptureSource, token: string |
     },
     async () => {
       const api = config.api;
-      if (token) {
-        window.showInformationMessage(token);
-      }
       const response = await axios({
         url: `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
         method: 'POST',
