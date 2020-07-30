@@ -1,10 +1,11 @@
 import config from '../config';
-import { ProgressLocation, window } from 'vscode';
+import { ProgressLocation, window, CompletionTriggerKind } from 'vscode';
 import { CaptureSource, LineRange, Repo, Rule } from './model';
 import * as git from '../git';
 import * as ui from '../ui';
 import axios from 'axios';
 import { Commit } from '../@types/git';
+import { authenticate } from '../auth';
 
 const defaultQuery = `# Edit this query to find problematic code.
 import codelingo/ast/go
@@ -14,9 +15,7 @@ go.file(depth=any):
     name == "impossible package name"
 `;
 
-export default async function capture(): Promise<any> {
-  // TODO: authenticate user with auth-0
-
+export default async function capture(accessToken: string | undefined): Promise<any> {
   const { repos, filepath, lineRange, commit } = await inferContextFromActiveEditor();
   if (!repos) {
     return await ui.errorNoRepoDetected();
@@ -34,11 +33,11 @@ export default async function capture(): Promise<any> {
   }
 
   const source: CaptureSource = { owner: repo.owner, repo: repo.name, filepath, lineRange, commit };
-  const rule = await storeRule(message, source);
+  const rule = await storeRule(message, source, accessToken);
   await ui.showRuleWasCreated(rule, source);
 }
 
-async function storeRule(message: string, source: CaptureSource) {
+async function storeRule(message: string, source: CaptureSource, token: string | undefined) {
   return await window.withProgress(
     {
       location: ProgressLocation.Window,
@@ -47,17 +46,18 @@ async function storeRule(message: string, source: CaptureSource) {
     },
     async () => {
       const api = config.api;
-
-      const response = await axios.post(
-        `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
-        {
+      const response = await axios({
+        url: `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        data: {
           name: message,
           description: descriptionFromSource(source),
           query: defaultQuery,
           functions: null,
           review_comment: '---',
-        }
-      );
+        },
+      });
 
       const rule = response.data;
       return {
