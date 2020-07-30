@@ -1,11 +1,11 @@
 import config from '../config';
-import { ProgressLocation, window, CompletionTriggerKind } from 'vscode';
+import { ProgressLocation, window } from 'vscode';
 import { CaptureSource, LineRange, Repo, Rule } from './model';
 import * as git from '../git';
 import * as ui from '../ui';
 import axios from 'axios';
 import { Commit } from '../@types/git';
-import { authenticate } from '../auth';
+import Auth from '../auth';
 
 const defaultQuery = `# Edit this query to find problematic code.
 import codelingo/ast/go
@@ -15,7 +15,16 @@ go.file(depth=any):
     name == "impossible package name"
 `;
 
-export default async function capture(accessToken: string | undefined): Promise<any> {
+export default async function capture(): Promise<any> {
+  const auth = Auth.getInstance();
+  if (!auth.accessToken) {
+    const ok = await ui.loginConfirmation();
+    if (!ok) {
+      return ui.errorNotLoggedIn();
+    }
+    await auth.authenticate();
+  }
+
   const { repos, filepath, lineRange, commit } = await inferContextFromActiveEditor();
   if (!repos) {
     return await ui.errorNoRepoDetected();
@@ -33,7 +42,7 @@ export default async function capture(accessToken: string | undefined): Promise<
   }
 
   const source: CaptureSource = { owner: repo.owner, repo: repo.name, filepath, lineRange, commit };
-  const rule = await storeRule(message, source, accessToken);
+  const rule = await storeRule(message, source, auth.accessToken);
   await ui.showRuleWasCreated(rule, source);
 }
 
@@ -46,6 +55,9 @@ async function storeRule(message: string, source: CaptureSource, token: string |
     },
     async () => {
       const api = config.api;
+      if (token) {
+        window.showInformationMessage(token);
+      }
       const response = await axios({
         url: `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
         method: 'POST',
