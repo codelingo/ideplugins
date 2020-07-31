@@ -73,6 +73,7 @@ async function storeRule(message: string, source: CaptureSource, token: string |
             query: rule.content.query,
           } as Rule;
         })
+        // TODO better error handling
         .catch(() => {
           return undefined;
         });
