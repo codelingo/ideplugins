@@ -77,9 +77,9 @@ export async function errorRepoNotFound() {
   );
 }
 
-export async function errorAPIServer() {
+export async function errorAPIServer(message: string) {
   await window.showErrorMessage(
-    'API Error: Please make sure you have the CodeLingo GitHub app installed on this repo.'
+    `API Error: ${message}. Please make sure you have the CodeLingo GitHub app installed on this repo.`
   );
 }
 

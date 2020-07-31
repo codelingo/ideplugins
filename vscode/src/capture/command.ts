@@ -34,9 +34,25 @@ export default async function capture(): Promise<any> {
   }
 
   const source: CaptureSource = { owner: repo.owner, repo: repo.name, filepath, lineRange, commit };
-  const rule = await storeRule(message, source, auth.accessToken);
+  const rule = await storeRule(message, source, auth.accessToken)
+    .then((response) => {
+      const rule = response.data;
+      return {
+        id: rule.id,
+        name: rule.content.name,
+        description: rule.content.description,
+        review_comment: rule.content.review_comment,
+        query: rule.content.query,
+      } as Rule;
+    })
+    // TODO better error handling
+    .catch(async (error) => {
+      await ui.errorAPIServer(error);
+      return undefined;
+    });
+
   if (!rule) {
-    return await ui.errorAPIServer();
+    return;
   }
 
   return await ui.showRuleWasCreated(rule, source);
@@ -51,7 +67,7 @@ async function storeRule(message: string, source: CaptureSource, token: string |
     },
     async () => {
       const api = config.api;
-      const rule = await axios({
+      return await axios({
         url: `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -62,23 +78,7 @@ async function storeRule(message: string, source: CaptureSource, token: string |
           functions: null,
           review_comment: '---',
         },
-      })
-        .then((response) => {
-          const rule = response.data;
-          return {
-            id: rule.id,
-            name: rule.content.name,
-            description: rule.content.description,
-            review_comment: rule.content.review_comment,
-            query: rule.content.query,
-          } as Rule;
-        })
-        // TODO better error handling
-        .catch(() => {
-          return undefined;
-        });
-
-      return rule;
+      });
     }
   );
 }
