@@ -7,14 +7,6 @@ import axios from 'axios';
 import { Commit } from '../@types/git';
 import Auth from '../auth';
 
-const defaultQuery = `# Edit this query to find problematic code.
-import codelingo/ast/go
-go.file(depth=any):
-  @review comment
-  go.ident:
-    name == "impossible package name"
-`;
-
 export default async function capture(): Promise<any> {
   const auth = Auth.getInstance();
   if (!auth.accessToken) {
@@ -66,7 +58,7 @@ async function storeRule(message: string, source: CaptureSource, token: string |
         data: {
           name: message,
           description: descriptionFromSource(source),
-          query: defaultQuery,
+          query: "",
           functions: null,
           review_comment: '---',
         },
