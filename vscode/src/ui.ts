@@ -1,6 +1,6 @@
 import config from './config';
 import { Rule, CaptureSource, Repo, LineRange, RepoQuickPickItem } from './capture/model';
-import { window, env, Uri, workspace } from 'vscode';
+import { window, env, Uri } from 'vscode';
 
 export async function showRuleWasCreated(rule: Rule, source: CaptureSource) {
   const response = await window.showInformationMessage(
@@ -11,6 +11,14 @@ export async function showRuleWasCreated(rule: Rule, source: CaptureSource) {
     const url = `${config.dash.host}/repos/${source.owner}/${source.repo}/rules/${rule.id}`;
     env.openExternal(Uri.parse(url));
   }
+}
+
+export async function loginConfirmation() {
+  const response = await window.showInformationMessage(
+    'Please log in with GitHub and run the command again',
+    'Login'
+  );
+  return response === 'Login';
 }
 
 export async function chooseRepo(repos: Repo[]): Promise<Repo | undefined> {
@@ -69,8 +77,14 @@ export async function errorRepoNotFound() {
   );
 }
 
-export async function errorAPIServer() {
-  await window.showErrorMessage('An error occurred talking to the CodeLingo API');
+export async function errorAPIServer(message: string) {
+  await window.showErrorMessage(
+    `API Error: ${message}. Please make sure you have the CodeLingo GitHub app installed on this repo.`
+  );
+}
+
+export async function errorClient() {
+  await window.showErrorMessage('CodeLingo capture hit an error');
 }
 
 export async function errorGitDisabled() {
@@ -83,4 +97,8 @@ export async function errorGitNotFound() {
   await window.showErrorMessage(
     'CodeLingo was unable to find Git. Please make sure Git is installed. Also ensure that Git is in the PATH.'
   );
+}
+
+export async function errorNotLoggedIn() {
+  await window.showErrorMessage('CodeLingo Capture requires login to use.');
 }

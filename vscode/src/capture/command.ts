@@ -5,17 +5,17 @@ import * as git from '../git';
 import * as ui from '../ui';
 import axios from 'axios';
 import { Commit } from '../@types/git';
-
-const defaultQuery = `# Edit this query to find problematic code.
-import codelingo/ast/go
-go.file(depth=any):
-  @review comment
-  go.ident:
-    name == "impossible package name"
-`;
+import Auth from '../auth';
 
 export default async function capture(): Promise<any> {
-  // TODO: authenticate user with auth-0
+  const auth = Auth.getInstance();
+  if (!auth.accessToken) {
+    const ok = await ui.loginConfirmation();
+    if (!ok) {
+      return ui.errorNotLoggedIn();
+    }
+    return await auth.authenticate();
+  }
 
   const { repos, filepath, lineRange, commit } = await inferContextFromActiveEditor();
   if (!repos) {
@@ -34,31 +34,8 @@ export default async function capture(): Promise<any> {
   }
 
   const source: CaptureSource = { owner: repo.owner, repo: repo.name, filepath, lineRange, commit };
-  const rule = await storeRule(message, source);
-  await ui.showRuleWasCreated(rule, source);
-}
-
-async function storeRule(message: string, source: CaptureSource) {
-  return await window.withProgress(
-    {
-      location: ProgressLocation.Window,
-      cancellable: false,
-      title: 'Saving Rule...',
-    },
-    async () => {
-      const api = config.api;
-
-      const response = await axios.post(
-        `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
-        {
-          name: message,
-          description: descriptionFromSource(source),
-          query: defaultQuery,
-          functions: null,
-          review_comment: '---',
-        }
-      );
-
+  const rule = await storeRule(message, source, auth.accessToken)
+    .then((response) => {
       const rule = response.data;
       return {
         id: rule.id,
@@ -67,6 +44,41 @@ async function storeRule(message: string, source: CaptureSource) {
         review_comment: rule.content.review_comment,
         query: rule.content.query,
       } as Rule;
+    })
+    // TODO better error handling
+    .catch(async (error) => {
+      await ui.errorAPIServer(error);
+      return undefined;
+    });
+
+  if (!rule) {
+    return;
+  }
+
+  return await ui.showRuleWasCreated(rule, source);
+}
+
+async function storeRule(message: string, source: CaptureSource, token: string | undefined) {
+  return await window.withProgress(
+    {
+      location: ProgressLocation.Window,
+      cancellable: false,
+      title: 'Saving Rule...',
+    },
+    async () => {
+      const api = config.api;
+      return await axios({
+        url: `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        data: {
+          name: message,
+          description: descriptionFromSource(source),
+          query: '',
+          functions: null,
+          review_comment: '---',
+        },
+      });
     }
   );
 }
