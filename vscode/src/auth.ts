@@ -6,14 +6,12 @@ export default class Auth {
   private static instance: Auth;
   private _options: auth0.AuthorizeUrlOptions;
   private _auth: auth0.Authentication;
-  private _authURL: string;
   private _accessToken: string | undefined;
 
   private constructor() {
     this._options = {
       redirectUri: config.auth.callbackUrl,
       responseType: config.auth.responseType,
-      nonce: 'test',
     };
 
     this._auth = new auth0.Authentication({
@@ -22,8 +20,6 @@ export default class Auth {
       scope: config.auth.scope,
       audience: config.auth.audience,
     });
-
-    this._authURL = this._auth.buildAuthorizeUrl(this._options);
   }
 
   static getInstance(): Auth {
@@ -35,7 +31,10 @@ export default class Auth {
   }
 
   async authenticate() {
-    const callableUri = await vscode.env.asExternalUri(vscode.Uri.parse(this._authURL));
+    const nonce = this.generateNonce();
+    this._options.nonce = nonce;
+    const url = this._auth.buildAuthorizeUrl(this._options);
+    const callableUri = await vscode.env.asExternalUri(vscode.Uri.parse(url));
     await vscode.env.openExternal(callableUri);
   }
 
@@ -49,5 +48,11 @@ export default class Auth {
 
   get accessToken(): string | undefined {
     return this._accessToken;
+  }
+
+  private generateNonce(): string {
+    return (
+      Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    );
   }
 }
