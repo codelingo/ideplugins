@@ -78,7 +78,7 @@ async function storeRule(message: string, source: CaptureSource, token: string |
           return undefined;
         });
 
-        return rule
+      return rule;
     }
   );
 }
