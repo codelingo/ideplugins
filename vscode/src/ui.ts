@@ -15,7 +15,7 @@ export async function showRuleWasCreated(rule: Rule, source: CaptureSource) {
 
 export async function loginConfirmation() {
   const response = await window.showInformationMessage(
-    'Please log in with GitHub and try rerunning the command again',
+    'Please log in with GitHub and run the command again',
     'Login'
   );
   return response === 'Login';

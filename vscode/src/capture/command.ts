@@ -14,7 +14,7 @@ export default async function capture(): Promise<any> {
     if (!ok) {
       return ui.errorNotLoggedIn();
     }
-    await auth.authenticate();
+    return await auth.authenticate();
   }
 
   const { repos, filepath, lineRange, commit } = await inferContextFromActiveEditor();
@@ -34,12 +34,12 @@ export default async function capture(): Promise<any> {
   }
 
   const source: CaptureSource = { owner: repo.owner, repo: repo.name, filepath, lineRange, commit };
-  try {
-    const rule = await storeRule(message, source, auth.accessToken);
-    return await ui.showRuleWasCreated(rule, source);
-  } catch (e) {
+  const rule = await storeRule(message, source, auth.accessToken);
+  if (!rule) {
     return await ui.errorAPIServer();
   }
+
+  return await ui.showRuleWasCreated(rule, source);
 }
 
 async function storeRule(message: string, source: CaptureSource, token: string | undefined) {
@@ -51,27 +51,33 @@ async function storeRule(message: string, source: CaptureSource, token: string |
     },
     async () => {
       const api = config.api;
-      const response = await axios({
+      const rule = await axios({
         url: `${api.host}/${api.paths.capture}/${source.owner}/${source.repo}`,
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         data: {
           name: message,
           description: descriptionFromSource(source),
-          query: "",
+          query: '',
           functions: null,
           review_comment: '---',
         },
-      });
+      })
+        .then((response) => {
+          const rule = response.data;
+          return {
+            id: rule.id,
+            name: rule.content.name,
+            description: rule.content.description,
+            review_comment: rule.content.review_comment,
+            query: rule.content.query,
+          } as Rule;
+        })
+        .catch(() => {
+          return undefined;
+        });
 
-      const rule = response.data;
-      return {
-        id: rule.id,
-        name: rule.content.name,
-        description: rule.content.description,
-        review_comment: rule.content.review_comment,
-        query: rule.content.query,
-      } as Rule;
+        return rule
     }
   );
 }
