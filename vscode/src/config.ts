@@ -14,7 +14,7 @@ const config = {
     callbackUrl: 'vscode://codelingo.codelingo/authorize',
     responseType: 'token id_token',
     scope: 'openid email profile',
-    audience: 'https://flow.staging.codelingo.io',
+    audience: 'https://flow.codelingo.io',
   },
 };
 
