@@ -1,14 +1,9 @@
+# CodeLingo Capture
 
-Use the following plugin to capture rule ideas from the VS Code IDE.
+[![Slack](https://img.shields.io/badge/Slack-CodeLingo-green?style=flat)](https://codelingo.slack.com/messages/codelingo-dev)
 
-# Download and install VS Code Capture Plugin 
+This extension allows for Rule capturing from within VSCode.
 
-Download plugin from https://github.com/codelingo/codelingo/tree/master/plugins/vscode
-Install the plugin with `code --install-extension codelingo-0.0.1.vsix
+## Usage
 
-# Build and install VS Code Capture Plugin 
 
-- Checkout https://github.com/codelingo/ideplugins/tree/master/vscode
-- Install vsce: `npm install -g vsce`
-- run `vsce package`
-- Install the plugin with `code --install-extension codelingo-0.0.1.vsix
