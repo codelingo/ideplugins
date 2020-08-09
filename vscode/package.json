@@ -1,7 +1,7 @@
 {
 	"name": "codelingo",
 	"publisher": "codelingo",
-	"displayName": "Codelingo",
+	"displayName": "CodeLingo Capture",
 	"description": "CodeLingo Capture support for Visual Studio Code",
 	"version": "0.0.1",
 	"icon": "vscode/images/cl-logo.png",
