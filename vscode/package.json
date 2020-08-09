@@ -4,7 +4,7 @@
 	"displayName": "CodeLingo Capture",
 	"description": "CodeLingo Capture support for Visual Studio Code",
 	"version": "0.0.1",
-	"icon": "https://raw.githubusercontent.com/codelingo/ideplugins/master/vscode/images/cl-logo.png",
+	"icon": "images/cl-logo.png",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
