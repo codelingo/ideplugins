@@ -3,7 +3,9 @@
 [![Slack](https://img.shields.io/badge/Slack-CodeLingo-green?style=flat)](https://codelingo.slack.com/messages/codelingo-dev) 
 [![GitHub](https://img.shields.io/github/stars/codelingo/codelingo?style=social)](https://github.com/codelingo/codelingo)
 
-This extension allows for Rule capturing from within VSCode.
+Capture ideas for needed coding Rules directly from VSCode simply by selecting the code and noting the needed Rule idea.
+
+![alt text](./images/capture-example.png "CodeLingo Capture example")
 
 ## Login
 
