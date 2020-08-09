@@ -1,15 +1,23 @@
 {
 	"name": "codelingo",
 	"publisher": "codelingo",
-	"displayName": "codelingo",
-	"description": "",
+	"displayName": "CodeLingo Capture",
+	"description": "CodeLingo Capture support for Visual Studio Code",
 	"version": "0.0.1",
+	"icon": "vscode/images/cl-logo.png",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
 	"categories": [
 		"Other"
 	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/codelingo/ideplugins"
+	  },
+	"bugs": {
+		"url": "https://github.com/codelingo/codelingo/issues"
+	},
 	"activationEvents": [
 		"onCommand:codelingo.capture"
 	],
@@ -22,14 +30,7 @@
 			}
 		],
 		"configuration": {
-			"title": "CodeLingo",
-			"properties": {
-				"codelingo.launchUrl": {
-					"type": "string",
-					"description": "The URL to launch when the rule creation popup is clicked",
-					"default": "https://dash.staging.codelingo.io/repos/mrcrowl/swarm/rules/170"
-				}
-			}
+			"title": "CodeLingo"
 		}
 	},
 	"scripts": {
