@@ -5,7 +5,7 @@
 
 Capture ideas for needed coding Rules directly from VSCode simply by selecting the code and noting the needed Rule idea.
 
-![alt text](./images/capture-example.png "CodeLingo Capture example")
+![alt text](https://raw.githubusercontent.com/codelingo/ideplugins/master/vscode/images/capture-example.png "CodeLingo Capture example")
 
 ## Login
 
