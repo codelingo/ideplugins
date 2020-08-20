@@ -51,7 +51,7 @@ export async function inputCaptureMessage(lineRange: LineRange | undefined) {
     }
 
     const [start, end] = lineRange;
-    return start === end ? `at line ${start}` : `at lines ${start}-${end}`;
+    return start === end ? `line ${start}` : `lines ${start}-${end}`;
   }
 
   const result = await window.showInputBox({
